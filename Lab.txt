@@ -1,3 +1,24 @@
+Lab 3 - Lab5Support -> Random sleep 
+Write a main method to create and start 3 thread, need to display which thread is closed first
+
+class Lab5Support extends Thread
+{
+	private String str;
+	
+public Lab5Support(String str) {
+		super();
+		this.str = str;
+	}
+
+@Override
+public void run() {
+	for (int i = 0;i<20;i++){
+		System.out.print(str);
+		try { Thread.sleep((int)(Math.random()*1000)); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
+	}
+}	
+}
+---------------------------------
 Lab 2 - Create a new class to observe time slicing
 class Lab4Support extends Thread
 {
