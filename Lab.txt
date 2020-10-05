@@ -2,10 +2,77 @@ Lab 6 - Write new Lab2.java
 	Thread Deposit {increase balance by 100}
 	Thread Widraw  {decrease balance by 100}
 	class Account { name, balance}
+	class Account {
+	private String name;
+	private int balance;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getBalance() {
+		return balance;
+	}
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
+	@Override
+	public String toString() {
+		return "Account [name=" + name + ", balance=" + balance + "]";
+	}
 	
+}
+class Deposit extends Thread{
+private Account acc;
+
+public Deposit(Account acc) {
+	super();
+	this.acc = acc;
+}
+@Override
+	public void run() {
+		for (int i = 1;i <= 10;i++){
+			int bal = this.acc.getBalance();
+			bal+=100;
+			this.acc.setBalance(bal);
+			System.out.println("Deposit, current i =  " +  i + ", current balance = " + this.acc.getBalance());
+		}
+	}
+}	
+class Widraw extends Thread{
+	private Account acc;
+
+	public Widraw(Account acc) {
+		super();
+		this.acc = acc;
+	}
+	@Override
+		public void run() {
+			for (int i = 1;i <= 10;i++){
+				int bal = this.acc.getBalance();
+				bal-=100;
+				this.acc.setBalance(bal);
+				System.out.println("Widraw, current i =  " +  i + ", current balance = " + this.acc.getBalance());
+			}
+		}	
+}		
+public class Lab2_waitnotify {
+
+	public static void main(String[] args) {
+	Account acc = new Account();
+	 Deposit d = new Deposit(acc);
+	 Widraw w = new Widraw(acc);
+	 d.start();
+	 w.start();
+
+	}
+
+}
+-------------------------------------------
 Lab 5 -  run (Lab1.java), take thread dump, observe  BLOCKED (on object monitor) and locked <0x00000000d5f561d8> (a java.util.ArrayList)
 
-
+-------------------------------------------
 Lab 4 - stop current thread execution till t1 gets over
 try {
 		t1.join();
@@ -16,6 +83,7 @@ try {
 	System.out.println("end of  main  after completing t1 ");
 	
 }
+-------------------------------------------
 Lab 3 - Lab5Support -> Random sleep 
 Write a main method to create and start 3 thread, need to display which thread is closed first
 
