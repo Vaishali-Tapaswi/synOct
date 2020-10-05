@@ -1,3 +1,11 @@
+Lab 6 - Write new Lab2.java 
+	Thread Deposit {increase balance by 100}
+	Thread Widraw  {decrease balance by 100}
+	class Account { name, balance}
+	
+Lab 5 -  run (Lab1.java), take thread dump, observe  BLOCKED (on object monitor) and locked <0x00000000d5f561d8> (a java.util.ArrayList)
+
+
 Lab 4 - stop current thread execution till t1 gets over
 try {
 		t1.join();
