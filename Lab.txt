@@ -1,4 +1,29 @@
-Create a new java project -> demo1
+Lab 2 - Create a new class to observe time slicing
+class Lab4Support extends Thread
+{
+	private String str;
+	
+public Lab4Support(String str) {
+		super();
+		this.str = str;
+	}
+
+@Override
+public void run() {
+	for (int i = 0;i<1000;i++){
+		System.out.print(str);
+		if (i%100==0)
+			System.out.println();
+	}
+}	
+
+Write a main method -> create 3/5 threads and see timeslicing
+	change 1000 to 100000-> visualvm to see timeslicing
+	
+	
+
+
+Lab 1- Create a new java project -> demo1
 Create 3 files -> Lab1 -> create a thread with extends Thread
                   Lab2 -> create a thread with implements Runnable
                   Lab3 -> Create a thread with lambda expression
