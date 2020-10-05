@@ -3,6 +3,31 @@ Write a main method to create and start 3 thread, need to display which thread i
 
 class Lab5Support extends Thread
 {
+	static String finalloc;
+	static boolean contflag=true;
+	private String str;
+	
+public Lab5Support(String str) {
+		super();
+		this.str = str;
+	}
+
+@Override
+public void run() {
+	for (int i = 0;i<10 && contflag==true;i++){
+		System.out.print(str);
+		try { Thread.sleep((int)(Math.random()*100)); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
+	}
+	if (contflag == true){
+	System.out.println("\n"+ Thread.currentThread().getName() + " over and selected destination");
+	finalloc = Thread.currentThread().getName();
+	contflag = false;
+	}
+}	
+}
+-------------
+class Lab5Support extends Thread
+{
 	private String str;
 	
 public Lab5Support(String str) {
