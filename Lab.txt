@@ -1,3 +1,10 @@
+Lab 8 , 9 - Daeman thread & Group
+	t1.setDaemon(true);
+		-> jvm closing irrespective of thread not getting completed
+	Create two thread group with 2/4 threads each and just print active count.
+		ThreadGroup tg = new ThreadGroup("MyGroup");
+		Thread t1= new Thread(tg, runnable);
+----------------------------
 Lab 7 - Create 4/5 threads and change one thread priority to max. str.setPriority(Thread.MAX_PRIORITY);
 	See how time slicing gets affected. 
 	modify thread/BounceThread to have a slow, normal and fast ball.
