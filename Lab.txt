@@ -1,6 +1,7 @@
 Lab 7 - Create 4/5 threads and change one thread priority to max. str.setPriority(Thread.MAX_PRIORITY);
 	See how time slicing gets affected. 
-
+	modify thread/BounceThread to have a slow, normal and fast ball.
+	-> take a dump and observe thread priority 
 ----------------------------------
 Lab 6 - Write new Lab2.java 
 	Thread Deposit {increase balance by 100}
