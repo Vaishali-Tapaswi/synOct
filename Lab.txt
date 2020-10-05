@@ -1,0 +1,74 @@
+Create a new java project -> demo1
+Create 3 files -> Lab1 -> create a thread with extends Thread
+                  Lab2 -> create a thread with implements Runnable
+                  Lab3 -> Create a thread with lambda expression
+  -----------import java.util.Scanner;
+
+class Lab1Support extends Thread
+{
+@Override
+public void run() {
+	for (int i = 0;i<10;i++){
+		System.out.println("For - " + i +  " in thread " + Thread.currentThread().getName());
+	}
+}	
+}
+public class Lab1 {
+
+	
+	public static void main(String[] args) {
+		System.out.println("Press a number to continue");
+		Scanner scanner = new Scanner(System.in);
+		scanner.nextInt();
+		Lab1Support lab1 = new Lab1Support();
+		lab1.start();
+		System.out.println("after starting the thread");
+
+	}
+}
+--------------
+import java.util.Scanner;
+
+class Lab2Support implements Runnable
+{
+@Override
+public void run() {
+	for (int i = 0;i<10;i++){
+		System.out.println("For - " + i +  " in thread " + Thread.currentThread().getName());
+	}
+}	
+}
+public class Lab2 {
+
+	
+	public static void main(String[] args) {
+		System.out.println("Press a number to continue");
+		Scanner scanner = new Scanner(System.in);
+		scanner.nextInt();
+		Thread t1 = new Thread(new Lab2Support());
+		t1.start();
+		
+		System.out.println("after starting the thread");
+
+	}
+}
+------------
+import java.util.Scanner;
+
+public class Lab3 {
+	
+	public static void main(String[] args) {
+		System.out.println("Press a number to continue");
+		Scanner scanner = new Scanner(System.in);
+		scanner.nextInt();
+		Runnable runnable = ()->{	for (int i = 0;i<10;i++){
+			System.out.println("For - " + i +  " in thread " + Thread.currentThread().getName());
+		}};
+		
+		Thread t1 = new Thread(runnable);
+		t1.start();
+		
+		System.out.println("after starting the thread");
+
+	}
+}
