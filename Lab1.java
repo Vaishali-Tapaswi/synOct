@@ -1,46 +1,45 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-class Lab1Support extends Thread{
-	private List<String> list ;
-	
-	public Lab1Support(List<String> list) {
-		this.list = list;
+class Lab4Support extends Thread{
+	private String str1;
+	private String str2;
+	public Lab4Support(String str1, String str2) {
+		super();
+		this.str1 = str1;
+		this.str2 = str2;
 	}
-
+	
 	@Override
 	public void run() {
-		for (int i = 1;i<=100;i++){
-			synchronized(list){
-				// just to take and show thread dump
-				try { Thread.sleep(1000); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
-				list.add(Thread.currentThread().getName()+"-"+i);
-	}
+		synchronized(str1)
+		{
+			System.out.println(str1 + " locked and waiting for " + str2 + " lock");
+			try { Thread.sleep(5000); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
+			synchronized (str2){
+				System.out.println(str1 + ", " + str2 + " locked ");
+				try { Thread.sleep(5000); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
+			}
+			System.out.println("released    " +  str2 + " lock ..... will be releasing " + str1 );
+			try { Thread.sleep(5000); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
 		}
 	}
 }
-public class Lab1_synchronized {
+public class Lab4_deadlock {
+
 	public static void main(String[] args) {
+		String str1= "StringOne";
+		String str2 = "StringTwo";
 		System.out.println("Press a number to continue");
 		Scanner scanner = new Scanner(System.in);
 		scanner.nextInt();
+	
+		Lab4Support t1 = new Lab4Support(str1, str2);
 		
-		List<String> list = new ArrayList<>();
-		Lab1Support str = new Lab1Support(list);
-		str.setName("str");
-		str.start();
-		Lab1Support mydata = new Lab1Support(list);
-		mydata.setName("mydata");
-		mydata.start();
-		try {
-			str.join();
-			mydata.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(list);
-		System.out.println(list.size());
+		t1.start();
+		Lab4Support t2 = new Lab4Support(str2, str1);
+		t2.start();
+
+		
 	}
+
 }
