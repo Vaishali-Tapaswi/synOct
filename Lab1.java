@@ -1,45 +1,46 @@
+import java.util.Date;
 import java.util.Scanner;
-
-class Lab4Support extends Thread{
-	private String str1;
-	private String str2;
-	public Lab4Support(String str1, String str2) {
-		super();
-		this.str1 = str1;
-		this.str2 = str2;
-	}
-	
-	@Override
-	public void run() {
-		synchronized(str1)
-		{
-			System.out.println(str1 + " locked and waiting for " + str2 + " lock");
-			try { Thread.sleep(5000); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
-			synchronized (str2){
-				System.out.println(str1 + ", " + str2 + " locked ");
-				try { Thread.sleep(5000); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
-			}
-			System.out.println("released    " +  str2 + " lock ..... will be releasing " + str1 );
-			try { Thread.sleep(5000); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
-		}
-	}
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+class Lab1SupportCallable implements Callable<String>
+{
+@Override
+	public String call() throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("\n\n in call for " + Thread.currentThread().getName());
+		return "Hello"+new Date();
+	}	
 }
-public class Lab4_deadlock {
+class Lab1Support implements Runnable
+{
+@Override
+public void run() {
+	System.out.println("\n\n");
+	for (int i = 1;i<10;i++){
+		System.out.println("For - " + i +  " in thread " + Thread.currentThread().getName());
+//		if (i % 5 ==0)
+//               		int	k = 5/0;
+		
+	}
+}	
+}
+public class Lab1 {
 
-	public static void main(String[] args) {
-		String str1= "StringOne";
-		String str2 = "StringTwo";
+	
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		System.out.println("Press a number to continue");
 		Scanner scanner = new Scanner(System.in);
 		scanner.nextInt();
-	
-		Lab4Support t1 = new Lab4Support(str1, str2);
-		
-		t1.start();
-		Lab4Support t2 = new Lab4Support(str2, str1);
-		t2.start();
-
-		
+		ExecutorService service = Executors.newSingleThreadExecutor();
+		service.execute(new Lab1Support());
+		service.execute(new Lab1Support());
+		service.execute(new Lab1Support());
+		Future<String> future = service.submit(new Lab1SupportCallable());
+		System.out.println("after future");
+		System.out.println("call returned " + future.get());
+		service.shutdown();
 	}
-
 }
