@@ -1,26 +1,57 @@
-import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-class Lab2Support implements Runnable
+import java.util.Scanner;
+import java.util.concurrent.CountDownLatch;
+
+class Lab1Support extends Thread
 {
+	private String str;
+	private CountDownLatch latch;
+	
+public Lab1Support(String str, CountDownLatch latch) {
+		super();
+		this.str = str;
+		this.latch = latch;
+	}
+
 @Override
 public void run() {
-	System.out.println("\n\n");
-	for (int i = 1;i<10;i++){
-		System.out.println("For - " + i +  " in thread " + Thread.currentThread().getName() + ", " + new Date());
-		try { Thread.sleep(200); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
+	for (int i = 0;i<10 ;i++){
+		System.out.print(str);
+		try { Thread.sleep((int)(Math.random()*1000)); 	} catch (InterruptedException e) { 		e.printStackTrace(); 		}
 	}
+	System.out.println("Currentn latch status  = " + latch.getCount());
+	latch.countDown();
 }	
 }
 
-public class Lab2 {
-public static void main(String[] args) {
-	// ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
-	 ScheduledExecutorService ses = Executors.newScheduledThreadPool(3);
-	 System.out.println("In main " + new Date());
-//	 ses.schedule(new Lab2Support(),10,TimeUnit.SECONDS);
-	ses.scheduleAtFixedRate(new Lab2Support(),5, 1,TimeUnit.SECONDS);
-	// ses.scheduleWithFixedDelay(new Lab2Support(),5, 5,TimeUnit.SECONDS);
+public class Lab1_latch {
+
+	
+public static void main(String[] args) throws InterruptedException {
+	System.out.println("Press a number to continue");
+	Scanner scanner = new Scanner(System.in);
+	//scanner.nextInt();
+	
+	CountDownLatch latch = new CountDownLatch(3);
+	Lab1Support t1 = new Lab1Support("A", latch);
+	t1.setName("AThread");
+	Lab1Support t2 = new Lab1Support("B",latch);
+	t2.setName("BThread");
+	Lab1Support t3 = new Lab1Support("C",latch);
+	t3.setName("CThread");
+	t1.start();
+	t2.start();
+	t3.start();
+	System.out.println(" before await");
+	latch.await();
+	System.out.println("all three threads  completed execution");
+/*	try {
+		t1.join();
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	System.out.println("end of  main  after completing t1 ");
+	*/
 }
 }
+
